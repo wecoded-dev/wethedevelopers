@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We The Developers | Creative Digital Agency</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Permanent+Marker&family=Shadows+Into+Light&family=Indie+Flower&display=swap" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Velocity.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    
+    <!-- Rough.js -->
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.2/bundled/rough.js"></script>
+    
+    <!-- mo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- Lenis.js -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        :root {
+            --light-pink: #ffd6e7;
+            --light-brown: #e6d2c3;
+            --light-blue: #d6f0ff;
+            --light-yellow: #fff9d6;
+            --sketch-color: #5a4a42;
+            --accent-color: #ff6b9d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Gochi Hand', cursive;
+            background-color: var(--light-pink);
+            color: var(--sketch-color);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .sketchy-border {
+            border: 3px solid var(--sketch-color);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            padding: 1.5em;
+            background-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 8px 8px 0px rgba(90, 74, 66, 0.2);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .sketchy-border::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px dashed var(--sketch-color);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .sketchy-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235a4a42' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .navbar {
+            background-color: var(--light-yellow);
+            border-bottom: 3px dashed var(--sketch-color);
+            font-family: 'Permanent Marker', cursive;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(255, 249, 214, 0.95);
+            box-shadow: 0 5px 15px rgba(90, 74, 66, 0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 2rem;
+            color: var(--sketch-color) !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-link {
+            color: var(--sketch-color) !important;
+            font-size: 1.3rem;
+            margin: 0 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+            transform: translateY(-3px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.4s ease;
+            border-radius: 2px;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--light-blue) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--sketch-color);
+            text-shadow: 3px 3px 0px rgba(90, 74, 66, 0.2);
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--sketch-color);
+            font-family: 'Indie Flower', cursive;
+        }
+        
+        .btn-sketchy {
+            background-color: var(--light-yellow);
+            color: var(--sketch-color);
+            border: 3px solid var(--sketch-color);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            padding: 12px 35px;
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.5rem;
+            transition: all 0.4s ease;
+            box-shadow: 5px 5px 0px rgba(90, 74, 66, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-sketchy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-sketchy:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: 8px 10px 0px rgba(90, 74, 66, 0.3);
+            background-color: var(--light-brown);
+        }
+        
+        .btn-sketchy:hover::before {
+            left: 100%;
+        }
+        
+        .section-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--sketch-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            bottom: -15px;
+            left: 0;
+            background-color: var(--sketch-color);
+            border-radius: 3px;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.5s ease;
+        }
+        
+        .section-title.animate::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        .service-card {
+            background-color: var(--light-blue);
+            border: 3px dashed var(--sketch-color);
+            border-radius: 30px;
+            padding: 2.5rem 1.5rem;
+            height: 100%;
+            transition: all 0.5s ease;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .service-card:hover {
+            transform: rotate(-2deg) scale(1.05);
+            background-color: var(--light-yellow);
+            box-shadow: 10px 10px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--sketch-color);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--accent-color);
+        }
+        
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--sketch-color);
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            background-color: white;
+            transition: all 0.4s ease;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 15px 15px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .portfolio-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 249, 214, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 22px;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.4s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--sketch-color);
+            margin: 0 auto 1.5rem;
+            object-fit: cover;
+            transition: all 0.4s ease;
+            box-shadow: 5px 5px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .team-member:hover .team-img {
+            border-color: var(--accent-color);
+            transform: scale(1.05) rotate(5deg);
+        }
+        
+        .testimonial-card {
+            background-color: var(--light-yellow);
+            border: 3px dotted var(--sketch-color);
+            border-radius: 25px;
+            padding: 2rem;
+            margin: 1rem;
+            transition: all 0.4s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: rotate(2deg) scale(1.03);
+            box-shadow: 8px 8px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .client-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--sketch-color);
+            margin: 0 auto 1rem;
+        }
+        
+        .stats-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-family: 'Permanent Marker', cursive;
+        }
+        
+        .stats-item {
+            text-align: center;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-item:hover {
+            transform: scale(1.1);
+        }
+        
+        .contact-form {
+            background-color: var(--light-brown);
+            padding: 3rem;
+            border-radius: 30px;
+            border: 4px dashed var(--sketch-color);
+            box-shadow: 10px 10px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 3px solid var(--sketch-color);
+            border-radius: 15px;
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.3rem;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 0.3rem rgba(90, 74, 66, 0.25);
+            border-color: var(--sketch-color);
+            transform: scale(1.02);
+        }
+        
+        footer {
+            background-color: var(--light-brown);
+            border-top: 4px dotted var(--sketch-color);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-yellow);
+            color: var(--sketch-color);
+            border-radius: 50%;
+            font-size: 1.8rem;
+            margin: 0 10px;
+            transition: all 0.4s ease;
+            border: 2px solid var(--sketch-color);
+        }
+        
+        .social-icons a:hover {
+            transform: translateY(-8px) rotate(10deg);
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 5px 5px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        /* Three.js Canvas */
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        /* Particles.js Container */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        /* Doodle elements */
+        .doodle {
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .bouncing {
+            animation: bounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* Process steps */
+        .process-step {
+            position: relative;
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-yellow);
+            border: 3px solid var(--sketch-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+            font-family: 'Permanent Marker', cursive;
+        }
+        
+        /* Blog cards */
+        .blog-card {
+            border: 3px solid var(--sketch-color);
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: white;
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 10px 10px 0px rgba(90, 74, 66, 0.2);
+        }
+        
+        .blog-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 3px 3px 0px rgba(90, 74, 66, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid var(--light-blue);
+            border-top: 8px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .service-card, .testimonial-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+   <noscript> <div id="preloader">
+        <div class="loader"></div>
+    </div></noscript>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-pencil-alt"></i> We The Developers
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#process">Process</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#team">Team</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section sketchy-bg">
+        <div id="particles-js"></div>
+        <div id="three-canvas"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">We The Developers</h1>
+            <p class="hero-subtitle">Sketching Digital Dreams into Reality</p>
+            <button class="btn btn-sketchy">Explore Our Creations</button>
+        </div>
+        
+        <!-- Doodle elements -->
+        <div class="doodle floating" style="top: 10%; left: 5%;">
+            <i class="fas fa-star" style="font-size: 2.5rem; color: var(--accent-color);"></i>
+        </div>
+        <div class="doodle bouncing" style="top: 20%; right: 10%;">
+            <i class="fas fa-heart" style="font-size: 3rem; color: var(--accent-color);"></i>
+        </div>
+        <div class="doodle floating" style="bottom: 15%; left: 15%;">
+            <i class="fas fa-cloud" style="font-size: 3.5rem; color: var(--sketch-color);"></i>
+        </div>
+        <div class="doodle bouncing" style="bottom: 25%; right: 5%;">
+            <i class="fas fa-lightbulb" style="font-size: 2.8rem; color: var(--accent-color);"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">About Our Creative Agency</h2>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="sketchy-border">
+                        <p>We The Developers is a creative digital agency with a passion for turning ideas into visually stunning realities. Our handcrafted, sketchy approach to design sets us apart in the digital landscape.</p>
+                        <p>We believe that every pixel tells a story, and we're here to help you sketch yours. With a team of diverse talents, we blend creativity with technology to deliver exceptional digital experiences.</p>
+                        <p>Our philosophy is simple: create digital solutions that not only look amazing but also deliver real results for your business.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="sketchy-border">
+                        <canvas id="rough-canvas" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5 sketchy-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Our Creative Services</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-card text-center">
+                        <i class="fas fa-code service-icon"></i>
+                        <h3>Web Development</h3>
+                        <p>Custom websites and web applications built with cutting-edge technologies and a sketchy creative touch.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-card text-center">
+                        <i class="fas fa-pen service-icon"></i>
+                        <h3>Copywriting</h3>
+                        <p>Compelling content that tells your brand's story and engages your audience on a deeper level.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-card text-center">
+                        <i class="fas fa-ad service-icon"></i>
+                        <h3>Google Ads</h3>
+                        <p>Strategic advertising campaigns designed to maximize your ROI and online presence.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="service-card text-center">
+                        <i class="fas fa-paint-brush service-icon"></i>
+                        <h3>Graphics Designing</h3>
+                        <p>Visually stunning designs that communicate your brand's unique personality and message.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Our Creative Portfolio</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="portfolio-item">
+                        <img src="https://via.placeholder.com/400x250/ffd6e7/5a4a42?text=Creative+Web+Design" alt="Project 1" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3>E-commerce Website</h3>
+                                <p>Fully responsive online store with sketchy design elements</p>
+                                <button class="btn btn-sketchy">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="portfolio-item">
+                        <img src="https://via.placeholder.com/400x250/e6d2c3/5a4a42?text=Brand+Identity" alt="Project 2" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3>Brand Identity</h3>
+                                <p>Complete branding package with hand-drawn elements</p>
+                                <button class="btn btn-sketchy">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="portfolio-item">
+                        <img src="https://via.placeholder.com/400x250/d6f0ff/5a4a42?text=Digital+Campaign" alt="Project 3" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <div class="text-center">
+                                <h3>Google Ads Campaign</h3>
+                                <p>ROI-focused advertising with creative visuals</p>
+                                <button class="btn btn-sketchy">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-5 sketchy-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Our Creative Process</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Discovery</h3>
+                        <p>We start by understanding your vision, goals, and target audience.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Sketching</h3>
+                        <p>We create initial sketches and concepts for your project.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Development</h3>
+                        <p>We bring your ideas to life with cutting-edge technology.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>Launch</h3>
+                        <p>We deploy your project and ensure everything runs smoothly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Meet Our Creative Team</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/180/fff9d6/5a4a42?text=Alex" alt="Team Member" class="team-img">
+                        <h3>Alex Johnson</h3>
+                        <p>Lead Developer & Sketch Artist</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/180/ffd6e7/5a4a42?text=Sarah" alt="Team Member" class="team-img">
+                        <h3>Sarah Miller</h3>
+                        <p>Content Strategist & Storyteller</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/180/d6f0ff/5a4a42?text=Michael" alt="Team Member" class="team-img">
+                        <h3>Michael Chen</h3>
+                        <p>Creative Director & Designer</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/180/e6d2c3/5a4a42?text=Emily" alt="Team Member" class="team-img">
+                        <h3>Emily Davis</h3>
+                        <p>Digital Marketing Specialist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-5 sketchy-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">What Our Clients Say</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/80/fff9d6/5a4a42?text=J" alt="Client" class="client-img">
+                        <h4>John Smith</h4>
+                        <p>"We The Developers transformed our online presence with their unique sketchy design approach. Highly recommended!"</p>
+                        <div class="rating">
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/80/ffd6e7/5a4a42?text=M" alt="Client" class="client-img">
+                        <h4>Maria Garcia</h4>
+                        <p>"The team's creativity and attention to detail exceeded our expectations. Our website has never looked better!"</p>
+                        <div class="rating">
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star-half-alt" style="color: gold;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/80/d6f0ff/5a4a42?text=R" alt="Client" class="client-img">
+                        <h4>Robert Johnson</h4>
+                        <p>"Working with We The Developers was a game-changer for our business. Their sketchy designs truly stand out!"</p>
+                        <div class="rating">
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-item">
+                        <div class="stats-number" data-count="150">0</div>
+                        <p>Projects Completed</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-item">
+                        <div class="stats-number" data-count="75">0</div>
+                        <p>Happy Clients</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-item">
+                        <div class="stats-number" data-count="5">0</div>
+                        <p>Years Experience</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-item">
+                        <div class="stats-number" data-count="12">0</div>
+                        <p>Awards Won</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-5 sketchy-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">From Our Sketchbook</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://via.placeholder.com/400x200/ffd6e7/5a4a42?text=Design+Tips" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <h4>The Art of Sketchy Web Design</h4>
+                            <p>Discover how hand-drawn elements can transform your digital presence.</p>
+                            <a href="#" class="btn btn-sketchy btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://via.placeholder.com/400x200/e6d2c3/5a4a42?text=Creative+Process" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <h4>Blending Creativity with Technology</h4>
+                            <p>How we merge artistic vision with cutting-edge development.</p>
+                            <a href="#" class="btn btn-sketchy btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="https://via.placeholder.com/400x200/d6f0ff/5a4a42?text=Trends+2023" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <h4>2023 Design Trends: The Sketchy Revolution</h4>
+                            <p>Why handcrafted design elements are dominating this year.</p>
+                            <a href="#" class="btn btn-sketchy btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Let's Create Something Amazing</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="contact-form">
+                        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" name="message" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-sketchy">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="social-icons mb-4">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-dribbble"></i></a>
+                <a href="#"><i class="fab fa-behance"></i></a>
+            </div>
+            <p class="mb-3">&copy; 2023 We The Developers. All rights reserved. | Sketching Digital Dreams</p>
+            <p>Designed with <i class="fas fa-heart" style="color: var(--accent-color);"></i> by Our Creative Team</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Initialize Lenis for smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Three.js Scene
+        function initThreeJS() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            document.getElementById('three-canvas').appendChild(renderer.domElement);
+
+            // Create floating geometric shapes with sketchy appearance
+            const geometries = [
+                new THREE.IcosahedronGeometry(1, 0),
+                new THREE.OctahedronGeometry(1, 0),
+                new THREE.TetrahedronGeometry(1, 0),
+                new THREE.DodecahedronGeometry(1, 0)
+            ];
+
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x5a4a42, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.4,
+                linewidth: 2
+            });
+
+            const shapes = [];
+            for (let i = 0; i < 15; i++) {
+                const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+                const shape = new THREE.Mesh(geometry, material);
+                shape.position.x = Math.random() * 40 - 20;
+                shape.position.y = Math.random() * 40 - 20;
+                shape.position.z = Math.random() * 20 - 30;
+                shape.scale.setScalar(Math.random() * 0.8 + 0.3);
+                shape.rotation.x = Math.random() * Math.PI;
+                shape.rotation.y = Math.random() * Math.PI;
+                scene.add(shape);
+                shapes.push({
+                    mesh: shape,
+                    speed: {
+                        x: (Math.random() - 0.5) * 0.02,
+                        y: (Math.random() - 0.5) * 0.02,
+                        z: (Math.random() - 0.5) * 0.02,
+                        rotation: (Math.random() - 0.5) * 0.02
+                    }
+                });
+            }
+
+            // Add some sketchy lines
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x5a4a42, transparent: true, opacity: 0.3 });
+            for (let i = 0; i < 10; i++) {
+                const points = [];
+                for (let j = 0; j < 5; j++) {
+                    points.push(new THREE.Vector3(
+                        Math.random() * 40 - 20,
+                        Math.random() * 40 - 20,
+                        Math.random() * 20 - 30
+                    ));
+                }
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(line);
+                shapes.push({
+                    mesh: line,
+                    speed: {
+                        x: (Math.random() - 0.5) * 0.01,
+                        y: (Math.random() - 0.5) * 0.01,
+                        z: (Math.random() - 0.5) * 0.01
+                    }
+                });
+            }
+
+            camera.position.z = 15;
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                shapes.forEach(shape => {
+                    shape.mesh.position.x += shape.speed.x;
+                    shape.mesh.position.y += shape.speed.y;
+                    shape.mesh.position.z += shape.speed.z;
+                    
+                    if (shape.mesh.rotation) {
+                        shape.mesh.rotation.x += shape.speed.rotation;
+                        shape.mesh.rotation.y += shape.speed.rotation;
+                    }
+                    
+                    // Boundary checks
+                    if (shape.mesh.position.x > 25) shape.mesh.position.x = -25;
+                    if (shape.mesh.position.x < -25) shape.mesh.position.x = 25;
+                    if (shape.mesh.position.y > 25) shape.mesh.position.y = -25;
+                    if (shape.mesh.position.y < -25) shape.mesh.position.y = 25;
+                    if (shape.mesh.position.z > 10) shape.mesh.position.z = -30;
+                    if (shape.mesh.position.z < -30) shape.mesh.position.z = 10;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Particles.js Configuration
+        function initParticles() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 120, density: { enable: true, value_area: 800 } },
+                    color: { value: "#5a4a42" },
+                    shape: { 
+                        type: "circle",
+                        stroke: { width: 1, color: "#5a4a42" }
+                    },
+                    opacity: { value: 0.5, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                    size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#5a4a42",
+                        opacity: 0.3,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // Rough.js Sketchy Drawing
+        function initRoughJS() {
+            const canvas = document.getElementById('rough-canvas');
+            const rc = rough.canvas(canvas);
+            
+            // Draw a more complex sketchy illustration
+            const options = { 
+                roughness: 2.5, 
+                fill: 'rgba(255, 249, 214, 0.5)',
+                stroke: '#5a4a42',
+                strokeWidth: 2,
+                fillStyle: 'hachure',
+                hachureAngle: 60,
+                hachureGap: 8
+            };
+            
+            // Background shape
+            rc.rectangle(10, 10, 480, 280, options);
+            
+            // Main elements
+            rc.circle(120, 100, 70, { 
+                ...options,
+                fill: 'rgba(255, 214, 231, 0.6)',
+                roughness: 1.8
+            });
+            
+            rc.rectangle(280, 70, 150, 100, { 
+                ...options,
+                fill: 'rgba(214, 240, 255, 0.6)',
+                roughness: 3
+            });
+            
+            // Decorative elements
+            rc.ellipse(350, 200, 100, 60, { 
+                ...options,
+                fill: 'rgba(230, 210, 195, 0.6)',
+                roughness: 2.2
+            });
+            
+            // Lines and curves
+            rc.curve([[50, 50], [150, 30], [250, 70], [350, 40], [450, 60]], { 
+                roughness: 1.5, 
+                stroke: '#5a4a42',
+                strokeWidth: 2
+            });
+            
+            rc.curve([[80, 250], [180, 220], [280, 240], [380, 210], [450, 230]], { 
+                roughness: 1.8, 
+                stroke: '#5a4a42',
+                strokeWidth: 2
+            });
+            
+            // Doodles
+            rc.circle(400, 120, 20, { roughness: 2, stroke: '#5a4a42', strokeWidth: 1.5 });
+            rc.rectangle(60, 180, 40, 40, { roughness: 2.5, stroke: '#5a4a42', strokeWidth: 1.5 });
+        }
+
+        // Anime.js Animations
+        function initAnimeJS() {
+            // Animate the hero title with more complex animation
+            anime.timeline({
+                targets: '.hero-title',
+            })
+            .add({
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 1500,
+                easing: 'easeOutElastic(1, .8)'
+            })
+            .add({
+                scale: [1, 1.05, 1],
+                duration: 1000,
+                easing: 'easeInOutQuad'
+            }, '-=500');
+            
+            // Animate the hero subtitle
+            anime({
+                targets: '.hero-subtitle',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 1500,
+                delay: 800,
+                easing: 'easeOutElastic(1, .8)'
+            });
+            
+            // Animate service cards on scroll with staggered effect
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach((card, index) => {
+                anime({
+                    targets: card,
+                    translateY: [100, 0],
+                    opacity: [0, 1],
+                    duration: 1200,
+                    delay: index * 200,
+                    easing: 'easeOutElastic(1, .8)',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+            
+            // Animate section titles on scroll
+            const sectionTitles = document.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => {
+                anime({
+                    targets: title,
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    duration: 1000,
+                    easing: 'easeOutCubic',
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 90%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    complete: function(anim) {
+                        title.classList.add('animate');
+                    }
+                });
+            });
+        }
+
+        // Velocity.js Animations
+        function initVelocityJS() {
+            // Animate doodle elements with more variety
+            $('.doodle').each(function(index) {
+                $(this).velocity({
+                    translateY: [-(30 + index*10), 0],
+                    translateX: [index % 2 === 0 ? -30 : 30, 0],
+                    rotateZ: [Math.random() * 360, 0],
+                    opacity: [0, 0.7]
+                }, {
+                    duration: 2000,
+                    delay: index * 400,
+                    easing: [0.5, 0, 0.5, 1]
+                });
+            });
+            
+            // Animate portfolio items on hover with 3D effect
+            $('.portfolio-item').hover(
+                function() {
+                    $(this).velocity({ 
+                        scale: 1.05,
+                        rotateY: 5,
+                        boxShadowBlur: 20
+                    }, { duration: 400 });
+                },
+                function() {
+                    $(this).velocity({ 
+                        scale: 1,
+                        rotateY: 0,
+                        boxShadowBlur: 0
+                    }, { duration: 400 });
+                }
+            );
+            
+            // Animate stats counter
+            function animateCounter() {
+                $('.stats-number').each(function() {
+                    const $this = $(this);
+                    const countTo = $this.attr('data-count');
+                    
+                    $({ countNum: $this.text() }).animate({ countNum: countTo }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum);
+                        }
+                    });
+                });
+            }
+            
+            // Trigger counter animation when stats section is in view
+            $(window).scroll(function() {
+                const statsSection = $('#stats');
+                const scrollPos = $(window).scrollTop();
+                const sectionTop = statsSection.offset().top;
+                const sectionHeight = statsSection.outerHeight();
+                
+                if (scrollPos > sectionTop - window.innerHeight / 1.5 && 
+                    scrollPos < sectionTop + sectionHeight) {
+                    if (!$('.stats-number').hasClass('animated')) {
+                        $('.stats-number').addClass('animated');
+                        animateCounter();
+                    }
+                }
+            });
+        }
+
+        // mo.js Animations
+        function initMoJS() {
+            // Create burst animation for buttons with more variations
+            $('.btn-sketchy').on('mouseenter', function(e) {
+                const burst = new mojs.Burst({
+                    parent: this,
+                    radius: { 0: 60 },
+                    count: 8,
+                    children: {
+                        shape: ['circle', 'polygon'],
+                        radius: { 10: 15 },
+                        fill: ['#5a4a42', '#ff6b9d', '#e6d2c3'],
+                        strokeWidth: 3,
+                        duration: 1000,
+                        easing: 'quint.inout'
+                    }
+                });
+                burst.play();
+                
+                // Additional shape animation
+                const circle = new mojs.Shape({
+                    parent: this,
+                    shape: 'circle',
+                    radius: { 0: 30 },
+                    fill: 'transparent',
+                    stroke: '#ff6b9d',
+                    strokeWidth: 3,
+                    duration: 500,
+                    easing: 'quint.inout'
+                });
+                circle.play();
+            });
+            
+            // Create animation for service icons
+            $('.service-card').hover(
+                function() {
+                    const burst = new mojs.Burst({
+                        parent: this,
+                        radius: { 0: 40 },
+                        count: 5,
+                        children: {
+                            shape: 'circle',
+                            radius: 8,
+                            fill: '#ff6b9d',
+                            opacity: { 1: 0 },
+                            duration: 1000
+                        }
+                    });
+                    burst.play();
+                },
+                function() {
+                    // No animation on mouseout
+                }
+            );
+        }
+
+        // Back to top button functionality
+        function initBackToTop() {
+            const backToTopButton = $('.back-to-top');
+            
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 300) {
+                    backToTopButton.addClass('active');
+                } else {
+                    backToTopButton.removeClass('active');
+                }
+            });
+            
+            backToTopButton.on('click', function() {
+                lenis.scrollTo(0, {
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            });
+        }
+
+        // Navbar scroll effect
+        function initNavbarScroll() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+        }
+
+        // Initialize all animations when document is ready
+        $(document).ready(function() {
+            initThreeJS();
+            initParticles();
+            initRoughJS();
+            initAnimeJS();
+            initVelocityJS();
+            initMoJS();
+            initBackToTop();
+            initNavbarScroll();
+            
+            // Add scroll animations for sections with more variety
+            $('section').each(function() {
+                const section = $(this);
+                $(window).scroll(function() {
+                    const scrollPos = $(window).scrollTop();
+                    const sectionTop = section.offset().top;
+                    const sectionHeight = section.outerHeight();
+                    
+                    if (scrollPos > sectionTop - window.innerHeight / 1.3 && 
+                        scrollPos < sectionTop + sectionHeight) {
+                        section.find('.sketchy-border').velocity(
+                            { translateY: [50, 0], opacity: [0, 1] },
+                            { duration: 800, easing: "easeOutQuart" }
+                        );
+                    }
+                });
+            });
+            
+            // Smooth scroll for navigation links
+            $('a.nav-link').on('click', function(e) {
+                e.preventDefault();
+                const target = $($(this).attr('href'));
+                if (target.length) {
+                    lenis.scrollTo(target[0], {
+                        offset: -70,
+                        duration: 1.5
+                    });
+                }
+            });
+            
+            // Form submission handling
+            $('#contact-form').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                const submitBtn = form.find('button[type="submit"]');
+                const originalText = submitBtn.text();
+                
+                submitBtn.text('Sending...').prop('disabled', true);
+                
+                // Simulate form submission (replace with actual AJAX call to Web3Forms)
+                setTimeout(() => {
+                    submitBtn.text('Message Sent!');
+                    setTimeout(() => {
+                        submitBtn.text(originalText).prop('disabled', false);
+                        form[0].reset();
+                    }, 2000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
